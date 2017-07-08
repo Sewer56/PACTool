@@ -1,0 +1,46 @@
+.PAC Audio Archive Format
+Made by Sewer56lol
+
+
+------------------------
+Master Header (0x20 Bytes)
+------------------------
+uint32 FileCount 
+uint32 MasterHeaderSize (0x20 bytes)
+uint32 Bank_File_Data_Size (Everything Past Master Header & Header #2)
+uint32 File_Data_Offset (Offset to File Data)
+byte[16] Null;
+
+-----------------------------
+2nd Section | File Items Data | Length: 0x10*FileCount
+-----------------------------
+byte Bank_Number // Bank File Number i.e. Bank1 = 01, Bank2 = 02
+byte Bank_ID // Bank File ID
+ushort File_Flag // Appears to be an identifier, 00 01 or 01 00
+uint32 FileOffset // This is the offset from the end of this list of headers.
+uint32 Unknown // Something to do with loading another file, an offset
+uint32 Unknown // Something to do with loading another file, an offset
+
+-----------------------------
+Unordered Section | File Data
+-----------------------------
+						  // Offset
+ushort Audio_Format       // 0x0 | 01
+ushort Number_Channels    // 0x2 | 01
+uint32 Sample_Rate        // 0x4 | 22050
+uint32 Byte_Rate          // 0x8 | 44100
+ushort Null|BlockAlign    // 0xC | 02
+ushort BPS/Bits_Per_Sample// 0xE | 16
+
+byte[12] Null             // 0x10
+
+uint32 Data_Size		  // 0x1C
+[RAW FILE DATA]			  // 0x20
+
+byte[x] Padding // Padding as necessary, such that each file length is divisible by 32
+
+
+Bytes Padded:
+#1: 46666 +22
+#2: 54784 +0
+#3: 37624 +8
