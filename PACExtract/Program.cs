@@ -17,20 +17,20 @@ namespace PACExtract
         public static string DirectoryPath; // File path of the directory we will write files in.
         public static string FileName; // Name of file
 
-        // public static bool DebugMode; // Verbose?
-
+        /// <summary>
+        /// The entry point of the application.
+        /// </summary>
         static void Main(string[] args)
         {
-
             // Check Arguments
             for (int x = 0; x < args.Length; x++)
             {
                 if (args[x] == ("-f") | args[x] == ("--file")) { FilePath = args[x + 1]; } // File Path
                 else if (args[x] == ("-e") | args[x] == ("--extract")) { Action = 1; }
                 else if (args[x] == ("-c") | args[x] == ("--convert")) { Action = 2; }
-                // else if (args[x] == ("-v") | args[x] == ("--verbose")) { DebugMode = true; }
             }
 
+            // Perform appropriate action.
             switch (Action)
             {
                 case 1:
@@ -43,9 +43,14 @@ namespace PACExtract
                     ShowHelp();
                     break;
             }
+            
+            // Return Status.
             Console.WriteLine("Complete");
         }
 
+        /// <summary>
+        /// Displays the help screen to the end user if valid arguments are not given.
+        /// </summary>
         public static void ShowHelp()
         {
             Console.WriteLine("\n-------------------");
@@ -58,6 +63,9 @@ namespace PACExtract
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// Converts a folder of .wav files into a PAC Archive.
+        /// </summary>
         public static void ConvertPACFile()
         {
             DirectoryPath = FilePath; // Path to the directory.
@@ -173,6 +181,10 @@ namespace PACExtract
             File.WriteAllBytes(DirectoryPath + @"\" + Path.GetFileName(DirectoryPath) + @"\" + FileName, PACFile.ToArray());
         }
 
+
+        /// <summary>
+        /// Extracts a .PAC Archive into a directory.
+        /// </summary>
         public static void ExtractPACFile()
         {
             PACFileArray = File.ReadAllBytes(FilePath); // Populate the PAC File into List
@@ -185,19 +197,15 @@ namespace PACExtract
             int CurrentCursorPosition = 0x20; // This is going to serve as a place from where we will read the array. 0x20 is length of header.
             int[] FileOffsets = new Int32[FileCount]; // Array of offsets.
 
-            // if (DebugMode) { Console.WriteLine("File Count: " + FileCount + "\n"); }
-
             // Iterate over all offsets.
             for (int x = 0; x < FileCount; x++)
             {
                 File.WriteAllBytes(DirectoryPath + @"\" + FileName + @"\Sound_" + x.ToString("D3") + ".BankEntry", GetArrayRange(CurrentCursorPosition, PACFileArray, 0x10)); // Write Entry File
                 FileOffsets[x] = BitConverter.ToInt32(PACFileArray, CurrentCursorPosition + 4); // Read the file offset which is 0x4 from the header entry.
-                // if (DebugMode) { Console.WriteLine("File Offset Added: " + FileOffsets[x]); }
                 CurrentCursorPosition += 0x10; // Iterate the current cursor position to the nest file.
             }
 
             int StartingDataOffset = CurrentCursorPosition; // Offset from which the data is based from, i.e. After Finishing Reading Headers
-            // if (DebugMode) { Console.WriteLine("\nStarting Offset: " + CurrentCursorPosition + "\n"); }
 
             // Go to the file data and export each file.
             for (int x = 0; x < FileOffsets.Length; x++)
@@ -240,7 +248,9 @@ namespace PACExtract
             }
         }
 
-        // Simply copies all bytes within a range A-B in an array.
+        /// <summary>
+        /// Retrieves all bytes in a specific subset of an array.
+        /// </summary>
         public static byte[] GetArrayRange(int SourceIndex, byte[] SourceArray, int Count)
         {
             byte[] NewArray = new Byte[Count];
