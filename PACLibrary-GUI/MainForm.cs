@@ -33,9 +33,18 @@ namespace PACLibrary_GUI
             ------------------
         */
 
-        public MainForm()
+        public MainForm(string openFile = "")
         {
             InitializeComponent();
+
+            if (openFile != "")
+            {
+                try
+                {
+                    OpenFile(openFile);
+                }
+                catch { }
+            }
         }
 
         /* Themes the current Windows Form.*/
@@ -94,6 +103,17 @@ namespace PACLibrary_GUI
             catch { }
         }
 
+        private void OpenFile(string filePath)
+        {
+            // Reset archive, load new archive in.
+            Archive = new PACArchive(filePath);
+            _lastOpenFile = filePath;
+
+            // Update GUI.
+            this.titleBar_Title.Text = Path.GetFileName(filePath);
+            UpdateGUI();
+        }
+
         /*
             ------------------
             GUI Control Events
@@ -125,13 +145,7 @@ namespace PACLibrary_GUI
 
             if (fileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                // Reset archive, load new archive in.
-                Archive = new PACArchive(fileDialog.FileName);
-                _lastOpenFile = fileDialog.FileName;
-
-                // Update GUI.
-                this.titleBar_Title.Text = Path.GetFileName(fileDialog.FileName);
-                UpdateGUI();
+                OpenFile(fileDialog.FileName);
             }
         }
 

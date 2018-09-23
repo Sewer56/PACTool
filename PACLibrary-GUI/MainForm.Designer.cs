@@ -112,9 +112,9 @@
             this.categoryBar_MenuStrip = new System.Windows.Forms.MenuStrip();
             this.titleBar_Panel = new System.Windows.Forms.Panel();
             this.box_SoundList = new Reloaded_GUI.Styles.Controls.Animated.AnimatedDataGridView();
+            this.toolTipGenerator = new System.Windows.Forms.ToolTip(this.components);
             this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FileSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolTipGenerator = new System.Windows.Forms.ToolTip(this.components);
             this.titleBar_StatusBar.SuspendLayout();
             this.box_MenuStrip.SuspendLayout();
             this.categoryBar_MenuStrip.SuspendLayout();
@@ -967,6 +967,7 @@
             this.FileName.HeaderText = "File Name";
             this.FileName.Name = "FileName";
             this.FileName.ReadOnly = true;
+            this.FileName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.FileName.Width = 200;
             // 
             // FileSize
@@ -977,6 +978,7 @@
             this.FileSize.HeaderText = "File Size";
             this.FileSize.Name = "FileSize";
             this.FileSize.ReadOnly = true;
+            this.FileSize.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // MainForm
             // 
@@ -1035,8 +1037,6 @@
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedButton categoryBar_Close;
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedButton titleBar_Title;
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedDataGridView box_SoundList;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FileSize;
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedButton titleBar_CurrentItem;
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedButton borderless_BankIndex;
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedButton borderless_FileIndex;
@@ -1051,6 +1051,8 @@
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox borderless_SomeCountValue;
         private Reloaded_GUI.Styles.Controls.Animated.AnimatedTextbox borderless_FileSizeValue;
         private System.Windows.Forms.ToolTip toolTipGenerator;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileSize;
     }
 }
 

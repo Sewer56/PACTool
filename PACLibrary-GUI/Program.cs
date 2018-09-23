@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Win32;
 using PACLibrary;
 
 namespace PACLibrary_GUI
@@ -13,11 +15,34 @@ namespace PACLibrary_GUI
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+            SetDefault();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+            if (args.Length > 0) { Application.Run(new MainForm(args[0])); }
+            else { Application.Run(new MainForm()); }
+        }
+
+        /// <summary>
+        /// Sets PACTool as the default application for .one files.
+        /// </summary>
+        public static void SetDefault()
+        {
+            // Navigate to Computer\HKEY_CURRENT_USER\Software\Classes\
+            var classesKey = Registry.CurrentUser.OpenSubKey("Software", true)?.OpenSubKey("Classes", true);
+
+            // Create an entry for ONE files.
+            var oneKey = classesKey.CreateSubKey(".pac");
+
+            // Gets the path of the executable and the command string.
+            string myExecutable = Assembly.GetEntryAssembly().Location;
+            string command = $"\"{myExecutable}\" \"%1\"";
+
+            // Create default key for .one\shell\Open\command\
+            var commandKey = oneKey.CreateSubKey("shell\\Open\\command");
+            commandKey.SetValue("", command);
         }
     }
 }
