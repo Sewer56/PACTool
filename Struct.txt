@@ -37,7 +37,7 @@ byte[12] Null             // 0x10
 uint32 Data_Size		  // 0x1C
 [RAW FILE DATA]			  // 0x20
 
-byte[x] Padding // Padding as necessary, such that each file length is divisible by 32
+byte[x] Padding           // Padding as necessary, such that each file length is divisible by 32
 
 
 Bytes Padded:

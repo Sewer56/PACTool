@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "PACExtract": {
-      "commandName": "Project",
-      "commandLineArgs": "-f \"G:\\Desktop\\test\\bank1\" -c -v"
-    }
-  }
-}
