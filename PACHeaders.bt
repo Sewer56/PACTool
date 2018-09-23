@@ -1,0 +1,38 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: Sonic Heroes PAC File
+//   Authors: Sewer56
+//   Version: 1.0.0
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+// Structs
+struct Header
+{
+    int FileCount;
+    int HeaderSize;
+    int DataSize;
+    int DataOffset;
+    byte Padding[16];
+};
+
+struct FileEntry
+{
+    byte BankIndex;
+    byte FileIndex;
+    byte FileFlagA;
+    byte FileFlagB;
+    int  FileOffset;
+    int  SomeCount;
+    int  UnknownB;
+};
+
+// Struct Definition
+LittleEndian();
+Header fileHeader;
+FileEntry fileEntries[fileHeader.FileCount];
