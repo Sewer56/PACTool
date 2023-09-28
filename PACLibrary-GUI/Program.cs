@@ -17,7 +17,7 @@ namespace PACLibrary_GUI
         [STAThread]
         static void Main(string[] args)
         {
-            SetDefault();
+            try { SetDefault(); } catch (Exception) { /* Might fail on some Wine installs */ }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
